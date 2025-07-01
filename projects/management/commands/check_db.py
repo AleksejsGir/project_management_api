@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.db import connection
 
 class Command(BaseCommand):
-    help = 'Проверка подключения к базе данных'
+    help = 'Check database connection'
 
     def handle(self, *args, **options):
         try:
@@ -10,10 +10,10 @@ class Command(BaseCommand):
                 cursor.execute("SELECT version();")
                 result = cursor.fetchone()
                 self.stdout.write(
-                    self.style.SUCCESS(f'✅ Подключение к PostgreSQL успешно!')
+                    self.style.SUCCESS(f'✅ PostgreSQL connection successful!')
                 )
-                self.stdout.write(f'📊 Версия PostgreSQL: {result[0]}')
+                self.stdout.write(f'📊 PostgreSQL version: {result[0]}')
         except Exception as e:
             self.stdout.write(
-                self.style.ERROR(f'❌ Ошибка подключения к БД: {e}')
+                self.style.ERROR(f'❌ Database connection error: {e}')
             )

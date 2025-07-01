@@ -2,10 +2,10 @@ from django.http import JsonResponse
 
 def api_root(request):
     """
-    Главная страница API с информацией о доступных endpoints
+    API root endpoint with information about available endpoints
     """
     return JsonResponse({
-        'message': 'Добро пожаловать в Project Management API! 🚀',
+        'message': 'Welcome to Project Management API! 🚀',
         'version': '1.0.0',
         'endpoints': {
             'api_docs': '/api/docs/',
@@ -14,5 +14,5 @@ def api_root(request):
             'projects': '/api/projects/',
             'auth': '/auth/',
         },
-        'status': 'API работает корректно! ✅'
+        'status': 'API is working correctly! ✅'
     })
