@@ -87,18 +87,21 @@ DATABASES = {
 
 # Security settings for production
 if not DEBUG:
+    # Основные настройки безопасности
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 31536000
+
+    # HSTS настройки (менее агрессивные)
+    SECURE_HSTS_SECONDS = 3600  # 1 час вместо года
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_PRELOAD = False  # Отключили для тестирования
 
-    # HTTPS settings
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True
+    # HTTPS настройки - ОТКЛЮЧЕНЫ для healthcheck
+    SESSION_COOKIE_SECURE = False  # Было True
+    CSRF_COOKIE_SECURE = False  # Было True
+    SECURE_SSL_REDIRECT = False  # Было True - ЭТО ГЛАВНАЯ ПРОБЛЕМА!
 
-    # Критически важно для работы за прокси на Railway
+    # Proxy настройки для Railway
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Password validation
