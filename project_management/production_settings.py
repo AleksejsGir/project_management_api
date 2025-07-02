@@ -14,18 +14,20 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-# Используем только стандартную переменную Railway ---
+# === Надежная настройка хостов и CSRF для Railway ===
+RAILWAY_PUBLIC_DOMAIN = config('RAILWAY_PUBLIC_DOMAIN', default=None)
+
 ALLOWED_HOSTS = [
     'healthcheck.railway.app',
 ]
-RAILWAY_PUBLIC_DOMAIN = config('RAILWAY_PUBLIC_DOMAIN', default=None)
-if RAILWAY_PUBLIC_DOMAIN:
-    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
-
-# Критически важно для POST/PUT/PATCH запросов ---
 CSRF_TRUSTED_ORIGINS = []
+
 if RAILWAY_PUBLIC_DOMAIN:
+    print(f"INFO: Found RAILWAY_PUBLIC_DOMAIN: {RAILWAY_PUBLIC_DOMAIN}") # Добавляем лог для отладки
+    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
     CSRF_TRUSTED_ORIGINS.append(f"https://{RAILWAY_PUBLIC_DOMAIN}")
+else:
+    print("WARNING: RAILWAY_PUBLIC_DOMAIN not found.") # Лог для отладки
 
 # Application definition
 INSTALLED_APPS = [
