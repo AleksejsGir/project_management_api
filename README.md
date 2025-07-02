@@ -17,7 +17,7 @@ A robust REST API for project and job vacancy management, built with Django REST
 - [👤 Test Data](#-test-data)
 - [🚀 API Endpoints](#-api-endpoints)
 - [💡 Request Examples](#-request-examples)
-- [⚙️ Local Setup](#️-local setup)
+- [⚙️ Local Setup](#local-setup)
 - [🐳 Docker Setup](#-docker-setup)
 - [🚀 Deployment](#-deployment)
 
