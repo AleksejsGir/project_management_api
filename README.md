@@ -270,7 +270,7 @@ The easiest way to run the project locally:
 
 1. **Clone the repository:**
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/AleksejsGir/project_management_api.git
 cd project_management_api
 ```
 
