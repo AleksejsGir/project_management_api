@@ -1,16 +1,17 @@
+# project_management/urls.py
+
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
-from .views import api_root
+from . import views
 
 urlpatterns = [
-    # Главная страница API
-    path('', api_root, name='api-root'),
-
-    # Админка
     path('admin/', admin.site.urls),
 
-    # API routes
+    # API root
+    path('', views.api_root, name='api-root'),
+
+    # API endpoints
     path('api/', include('projects.urls')),
     path('auth/', include('authentication.urls')),
 
