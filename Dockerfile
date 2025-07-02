@@ -53,6 +53,8 @@ RUN chown -R app:app /app
 # Переключаемся на непривилегированного пользователя
 USER app
 
-# CMD здесь не так важен, так как Railway использует startCommand из railway.json.
-# Но для полноты картины он должен быть таким:
-CMD gunicorn project_management.wsgi --bind 0.0.0.0:$PORT
+# Expose port (Railway установит PORT автоматически)
+EXPOSE $PORT
+
+# CMD для Railway - использует переменную PORT
+CMD gunicorn project_management.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
