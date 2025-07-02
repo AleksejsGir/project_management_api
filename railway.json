@@ -4,7 +4,7 @@
     "builder": "dockerfile"
   },
   "deploy": {
-    "startCommand": "gunicorn project_management.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --log-level info",
+    "startCommand": "python -m gunicorn project_management.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120 --access-logfile -",
     "preDeployCommand": "python manage.py migrate --noinput",
     "healthcheckPath": "/",
     "healthcheckTimeout": 120,

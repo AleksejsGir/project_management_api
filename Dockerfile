@@ -53,8 +53,8 @@ RUN chown -R app:app /app
 # Переключаемся на непривилегированного пользователя
 USER app
 
-# Expose port 8000 (стандартный для Railway)
+# Открываем порт 8000 для Railway
 EXPOSE 8000
 
-# CMD для Railway - использует фиксированный порт
-CMD gunicorn project_management.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120
+# CMD команда НЕ используется, так как Railway использует startCommand
+CMD ["python", "-m", "gunicorn", "project_management.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2"]
