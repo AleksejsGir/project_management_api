@@ -15,13 +15,17 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копирование кода приложения
 COPY . .
 
-# Создание пользователя для безопасности (в продакшене)
+# Создание staticfiles директории
+RUN mkdir -p staticfiles
+
+# Контрольная команда
+RUN echo "Build completed at $(date)"
+
+# Создание пользователя для безопасности (в продакшене) (Best practice для Docker контейнеров)
 # RUN adduser --disabled-password --gecos '' appuser && chown -R appuser /app
 # USER appuser
 
 EXPOSE 8000
 
-# Команда по умолчанию для разработки
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
-RUN echo "Build completed at $(date)"
+# Production команда (gunicorn через Procfile)
+CMD ["gunicorn", "project_management.wsgi", "--bind", "0.0.0.0:8000"]
