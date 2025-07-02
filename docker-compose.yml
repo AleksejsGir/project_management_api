@@ -1,5 +1,3 @@
-# docker-compose.yml - БЕЗОПАСНАЯ ВЕРСИЯ
-# НЕ ВЛИЯЕТ НА RAILWAY!
 
 version: '3.8'
 
@@ -32,13 +30,13 @@ services:
     env_file:
       - .env
     environment:
-      # Переопределяем только специфичные для Docker настройки
+      # Override only Docker-specific settings
       - DB_HOST=db
       - DB_NAME=project_management
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_PORT=5432
-    # ПЕРЕОПРЕДЕЛЯЕМ команду для разработки (вместо gunicorn)
+    # OVERRIDE command for development (instead of gunicorn)
     command: >
       sh -c "
         echo '⏳ Applying migrations...' &&

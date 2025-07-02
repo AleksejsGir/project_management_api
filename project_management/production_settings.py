@@ -91,7 +91,7 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
 
-    # HSTS настройки (менее агрессивные)
+    # HSTS настройки
     SECURE_HSTS_SECONDS = 3600  # 1 час вместо года
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = False  # Отключили для тестирования
@@ -99,7 +99,7 @@ if not DEBUG:
     # HTTPS настройки - ОТКЛЮЧЕНЫ для healthcheck
     SESSION_COOKIE_SECURE = False  # Было True
     CSRF_COOKIE_SECURE = False  # Было True
-    SECURE_SSL_REDIRECT = False  # Было True - ЭТО ГЛАВНАЯ ПРОБЛЕМА!
+    SECURE_SSL_REDIRECT = False  # Было True
 
     # Proxy настройки для Railway
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -126,11 +126,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images) - ИСПРАВЛЕНО!
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# WhiteNoise static file settings - УПРОЩЕННЫЕ для исправления ошибки
+# WhiteNoise static file settings
 STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'  # Без компрессии
 
 # Альтернативно можно использовать простой подход без манифеста
