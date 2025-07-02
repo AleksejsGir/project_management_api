@@ -3,31 +3,28 @@
 import os
 import dj_database_url
 from pathlib import Path
-from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-# === Надежная настройка хостов и CSRF для Railway ===
-RAILWAY_PUBLIC_DOMAIN = config('RAILWAY_PUBLIC_DOMAIN', default=None)
-
+# === Настройка хостов для Railway ===
 ALLOWED_HOSTS = [
-    'healthcheck.railway.app',
+    'localhost',
+    '127.0.0.1',
+    '0.0.0.0',
+    '.railway.app',  # Все поддомены Railway
 ]
-CSRF_TRUSTED_ORIGINS = []
 
-if RAILWAY_PUBLIC_DOMAIN:
-    print(f"INFO: Found RAILWAY_PUBLIC_DOMAIN: {RAILWAY_PUBLIC_DOMAIN}") # Добавляем лог для отладки
-    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
-    CSRF_TRUSTED_ORIGINS.append(f"https://{RAILWAY_PUBLIC_DOMAIN}")
-else:
-    print("WARNING: RAILWAY_PUBLIC_DOMAIN not found.") # Лог для отладки
+# CSRF настройки для Railway
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.railway.app',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -84,7 +81,7 @@ WSGI_APPLICATION = 'project_management.wsgi.application'
 # Database - Railway PostgreSQL
 DATABASES = {
     'default': dj_database_url.parse(
-        config('DATABASE_URL')
+        os.environ.get('DATABASE_URL')
     )
 }
 
@@ -101,7 +98,7 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
 
-    # Критически важно для работы за прокси на Railway ---
+    # Критически важно для работы за прокси на Railway
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Password validation
@@ -167,14 +164,14 @@ SPECTACULAR_SETTINGS = {
     'SCHEMA_PATH_PREFIX': '/api',
 }
 
-# CORS settings - more restrictive in production
+# CORS settings - более строгие в production
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 
-# Production CORS origins
 if not DEBUG:
-    # Рекомендую настроить это через переменные окружения для гибкости
-    cors_allowed_origins_env = config('CORS_ALLOWED_ORIGINS', default='')
-    CORS_ALLOWED_ORIGINS = cors_allowed_origins_env.split(',') if cors_allowed_origins_env else []
+    CORS_ALLOWED_ORIGINS = [
+        'https://*.railway.app',
+    ]
+    CORS_ALLOW_CREDENTIALS = True
 else:
     CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
@@ -204,7 +201,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': config('DJANGO_LOG_LEVEL', default='INFO'),
+            'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO'),
             'propagate': False,
         },
     },
