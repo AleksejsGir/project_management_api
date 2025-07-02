@@ -182,7 +182,7 @@ curl -X POST https://web-production-339a1.up.railway.app/auth/register/ \
     "first_name": "John",
     "last_name": "Doe"
   },
-  "token": "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+  "token": "YOUR_TOKEN_HERE"
 }
 ```
 
@@ -190,7 +190,7 @@ curl -X POST https://web-production-339a1.up.railway.app/auth/register/ \
 
 ```bash
 curl -X POST https://web-production-339a1.up.railway.app/api/projects/ \
-  -H "Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b" \
+  -H "Authorization: Token YOUR_TOKEN_HERE" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "My Awesome Project",
@@ -225,7 +225,7 @@ curl -X POST https://web-production-339a1.up.railway.app/api/projects/ \
 
 ```bash
 curl -X POST https://web-production-339a1.up.railway.app/api/projects/4/vacancies/ \
-  -H "Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b" \
+  -H "Authorization: Token YOUR_TOKEN_HERE" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Full Stack Developer",
@@ -241,7 +241,7 @@ curl -X POST https://web-production-339a1.up.railway.app/api/projects/4/vacancie
 
 ```bash
 curl -X GET https://web-production-339a1.up.railway.app/api/projects/4/stats/ \
-  -H "Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+  -H "Authorization: Token YOUR_TOKEN_HERE"
 ```
 
 **Response:**
@@ -259,7 +259,7 @@ curl -X GET https://web-production-339a1.up.railway.app/api/projects/4/stats/ \
 
 ```bash
 curl -X GET "https://web-production-339a1.up.railway.app/api/vacancies/?employment_type=full-time" \
-  -H "Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+  -H "Authorization: Token YOUR_TOKEN_HERE"
 ```
 
 ## ⚙️ Local Setup
