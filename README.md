@@ -17,11 +17,9 @@ A robust REST API for project and job vacancy management, built with Django REST
 - [👤 Test Data](#-test-data)
 - [🚀 API Endpoints](#-api-endpoints)
 - [💡 Request Examples](#-request-examples)
-- [⚙️ Local Setup](#️-local-setup)
+- [⚙️ Local Setup](#️-local setup)
 - [🐳 Docker Setup](#-docker-setup)
 - [🚀 Deployment](#-deployment)
-- [✅ Features](#-features)
-- [📊 Project Status](#-project-status)
 
 ## 🌐 Live Demo
 
@@ -408,7 +406,7 @@ If you encounter any issues or have questions about the API:
 
 ## 📄 License
 
-This project is available under the MIT License.
+This project is open source and available under the [MIT License](https://opensource.org/licenses/MIT).
 
 ---
 
