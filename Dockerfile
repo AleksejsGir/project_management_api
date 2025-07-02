@@ -23,3 +23,5 @@ EXPOSE 8000
 
 # Команда по умолчанию для разработки
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+RUN echo "Build completed at $(date)"
