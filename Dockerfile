@@ -1,31 +1,58 @@
-FROM python:3.11-slim
+# --- Этап 1: Сборщик (Builder) ---
+FROM python:3.11-slim as builder
 
-# Установка системных зависимостей
-RUN apt-get update && apt-get install -y \
-    gcc \
-    postgresql-client \
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Ставим "тяжелые" зависимости, которые не попадут в финальный образ
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Установка Python зависимостей (кэшируется, если requirements.txt не изменился)
+# Создаем изолированное виртуальное окружение
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Копируем и устанавливаем зависимости в venv
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копирование кода приложения
+# Копируем остальной код
 COPY . .
 
-# Создание staticfiles директории
-RUN mkdir -p staticfiles
+# Собираем статику в папку /app/staticfiles
+RUN python manage.py collectstatic --noinput --clear
 
-# Контрольная команда
-RUN echo "Build completed at $(date)"
 
-# Создание пользователя для безопасности (в продакшене-Best practice для Docker контейнеров)
-# RUN adduser --disabled-password --gecos '' appuser && chown -R appuser /app
-# USER appuser
+# --- Этап 2: Финальный образ (Final Image) ---
 
-EXPOSE 8000
+FROM python:3.11-slim
 
-# Production команда (gunicorn через Procfile)
-CMD ["gunicorn", "project_management.wsgi", "--bind", "0.0.0.0:8000"]
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Копируем только готовое venv из сборщика
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Создаем пользователя без прав root
+RUN addgroup --system app && adduser --system --group app
+
+WORKDIR /app
+
+# Копируем ТОЛЬКО код и собранную статику из сборщика
+COPY --from=builder /app/staticfiles ./staticfiles
+COPY . .
+
+# Меняем владельца файлов на нашего безопасного пользователя
+RUN chown -R app:app /app
+
+# Переключаемся на непривилегированного пользователя
+USER app
+
+# CMD здесь не так важен, так как Railway использует startCommand из railway.json.
+# Но для полноты картины он должен быть таким:
+CMD gunicorn project_management.wsgi --bind 0.0.0.0:$PORT
