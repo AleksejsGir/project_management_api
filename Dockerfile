@@ -21,7 +21,7 @@ RUN mkdir -p staticfiles
 # Контрольная команда
 RUN echo "Build completed at $(date)"
 
-# Создание пользователя для безопасности (в продакшене) (Best practice для Docker контейнеров)
+# Создание пользователя для безопасности (в продакшене-Best practice для Docker контейнеров)
 # RUN adduser --disabled-password --gecos '' appuser && chown -R appuser /app
 # USER appuser
 
