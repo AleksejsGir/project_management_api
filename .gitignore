@@ -1,6 +1,8 @@
 # Python/Django
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 db.sqlite3
 staticfiles/
 media/
@@ -9,19 +11,39 @@ media/
 venv/
 env/
 .venv/
+.env/
 
 # IDE / OS
 .idea/
 .vscode/
 .DS_Store
-
-# Git
-.git/
-.gitignore
+Thumbs.db
 
 # Environment files
 .env
 *.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Database dumps
+*.sql
+*.dump
 
 # Railway specific
 .railway/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# pytest
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.bak
+*~

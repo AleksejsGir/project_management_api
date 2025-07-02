@@ -1,3 +1,8 @@
+# docker-compose.yml - БЕЗОПАСНАЯ ВЕРСИЯ
+# НЕ ВЛИЯЕТ НА RAILWAY!
+
+version: '3.8'
+
 services:
   db:
     image: postgres:15
@@ -24,13 +29,27 @@ services:
         condition: service_healthy
     volumes:
       - .:/app
+    env_file:
+      - .env
     environment:
-      - DEBUG=True
+      # Переопределяем только специфичные для Docker настройки
       - DB_HOST=db
       - DB_NAME=project_management
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_PORT=5432
+    # ПЕРЕОПРЕДЕЛЯЕМ команду для разработки (вместо gunicorn)
+    command: >
+      sh -c "
+        echo '⏳ Applying migrations...' &&
+        python manage.py migrate &&
+        echo '📁 Collecting static files...' &&
+        python manage.py collectstatic --noinput &&
+        echo '👤 Creating test data...' &&
+        python manage.py create_test_data &&
+        echo '🚀 Starting DEVELOPMENT server...' &&
+        python manage.py runserver 0.0.0.0:8000
+      "
 
 volumes:
   postgres_data:
