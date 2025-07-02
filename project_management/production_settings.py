@@ -15,7 +15,9 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Используем только стандартную переменную Railway ---
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'healthcheck.railway.app',
+]
 RAILWAY_PUBLIC_DOMAIN = config('RAILWAY_PUBLIC_DOMAIN', default=None)
 if RAILWAY_PUBLIC_DOMAIN:
     ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
