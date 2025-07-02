@@ -9,23 +9,21 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-# Railway automatically provides the domain
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '.railway.app',  # Railway domains
-    '.up.railway.app',  # Railway preview domains
-]
+# Используем только стандартную переменную Railway ---
+ALLOWED_HOSTS = []
+RAILWAY_PUBLIC_DOMAIN = config('RAILWAY_PUBLIC_DOMAIN', default=None)
+if RAILWAY_PUBLIC_DOMAIN:
+    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
 
-# Add Railway host if available
-RAILWAY_STATIC_URL = config('RAILWAY_STATIC_URL', default='')
-if RAILWAY_STATIC_URL:
-    ALLOWED_HOSTS.append(RAILWAY_STATIC_URL.replace('https://', '').replace('http://', ''))
+# Критически важно для POST/PUT/PATCH запросов ---
+CSRF_TRUSTED_ORIGINS = []
+if RAILWAY_PUBLIC_DOMAIN:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RAILWAY_PUBLIC_DOMAIN}")
 
 # Application definition
 INSTALLED_APPS = [
@@ -82,7 +80,7 @@ WSGI_APPLICATION = 'project_management.wsgi.application'
 # Database - Railway PostgreSQL
 DATABASES = {
     'default': dj_database_url.parse(
-        config('DATABASE_URL', default='sqlite:///db.sqlite3')
+        config('DATABASE_URL')
     )
 }
 
@@ -95,9 +93,12 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
 
     # HTTPS settings
-    SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+
+    # Критически важно для работы за прокси на Railway ---
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -167,10 +168,9 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG
 
 # Production CORS origins
 if not DEBUG:
-    CORS_ALLOWED_ORIGINS = [
-        "https://your-frontend-domain.com",  # Replace with actual frontend
-        # Add more origins as needed
-    ]
+    # Рекомендую настроить это через переменные окружения для гибкости
+    cors_allowed_origins_env = config('CORS_ALLOWED_ORIGINS', default='')
+    CORS_ALLOWED_ORIGINS = cors_allowed_origins_env.split(',') if cors_allowed_origins_env else []
 else:
     CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
