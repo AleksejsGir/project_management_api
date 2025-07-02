@@ -53,8 +53,8 @@ RUN chown -R app:app /app
 # Переключаемся на непривилегированного пользователя
 USER app
 
-# Expose port (Railway установит PORT автоматически)
-EXPOSE $PORT
+# Expose port 8000 (стандартный для Railway)
+EXPOSE 8000
 
-# CMD для Railway - использует переменную PORT
-CMD gunicorn project_management.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+# CMD для Railway - использует фиксированный порт
+CMD gunicorn project_management.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120
