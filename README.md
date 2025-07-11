@@ -399,10 +399,24 @@ railway run python manage.py create_test_data
 
 If you encounter any issues or have questions about the API:
 
+
 1. Check the [Swagger Documentation](https://web-production-339a1.up.railway.app/api/docs/)
 2. Review the API examples above
 3. Test with the provided sample data
 4. Contact the development team: https://github.com/AleksejsGir
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/AleksejsGir">
+        <img src="https://github.com/AleksejsGir.png" width="100px;" alt="Aleksejs Giruckis"/>
+        <br />
+        <sub><b>Aleksejs Giruckis</b></sub>
+      </a>
+      <br />
+      <sub>Backend Developer</sub>
+    </td>
+  </tr>
+</table>
 
 ## 📝 About This Project
 This REST API was developed as a technical demonstration showcasing Django REST Framework, PostgreSQL integration, and production deployment capabilities. The project serves as a portfolio piece demonstrating full-stack development skills.
