@@ -404,9 +404,8 @@ If you encounter any issues or have questions about the API:
 3. Test with the provided sample data
 4. Contact the development team: https://github.com/AleksejsGir
 
-## 📄 License
-
-This project is open source and available under the [MIT License](https://opensource.org/licenses/MIT).
+## 📝 About This Project
+This REST API was developed as a technical demonstration showcasing Django REST Framework, PostgreSQL integration, and production deployment capabilities. The project serves as a portfolio piece demonstrating full-stack development skills.
 
 ---
 
