@@ -421,6 +421,10 @@ If you encounter any issues or have questions about the API:
 ## 📝 About This Project
 This REST API was developed as a technical demonstration showcasing Django REST Framework, PostgreSQL integration, and production deployment capabilities. The project serves as a portfolio piece demonstrating full-stack development skills.
 
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ---
 
 **⭐ If you find this project helpful, please give it a star!**
